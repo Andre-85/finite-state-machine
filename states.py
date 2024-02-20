@@ -11,13 +11,12 @@ class Transition:
 
 class State:
     def __init__(self, name: str = None, parent: "State" = None,
-                 initial: bool = False, final: bool = False):
+                 initial: bool = False):
         self.name = name
         self.states: list[State] = []
         self.transitions: list[Transition] = []
         self.active = False
         self.initial = initial
-        self.final = final
 
         if parent:
             parent.states += [self]
@@ -40,7 +39,7 @@ class State:
         self.active = active
         # Propergate
         for s in self.states:
-            if (s.initial and active) or (s.final and not active):
+            if s.initial and active:
                 s.set(True)
 
     def event(self, name: str) -> None:
